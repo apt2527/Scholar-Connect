@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scholarships - ScholarConnect</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="container nav-inner">
+            <div class="logo">
+               <span class="logo-icon"><a href="#"><img src="ASSETS/LOGO.jpg" alt="LOGO" style="width: 70px;"></a></span>
+                <span class="logo-text"><a href="#">ScholarConnect</a></span>
+            </div>
+
+            <nav class="nav-links">
+                <a href="index.html#home">Home</a>
+                <a href="scholarships.html">Scholarships</a>
+                <a href="index.html#categories">Categories</a>
+                <a href="index.html#how-it-works">How it works</a>
+                <a href="support.html">Support</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="signup.html" class="btn btn-primary">Sign up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Filters + List -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="section-header">
+                <h2>All scholarships</h2>
+                <p>Filter by level, type and category to find the best match.</p>
+            </div>
+
+            <!-- Simple filter bar -->
+            <div class="card" style="margin-bottom: 1.5rem;">
+                <form class="search-box">
+                    <input type="text" placeholder="Search by name, course or level" />
+
+                    <select>
+                        <option value="">Level</option>
+                        <option>Class 9–12</option>
+                        <option>Undergraduate</option>
+                        <option>Postgraduate</option>
+                    </select>
+
+                    <select>
+                        <option value="">Type</option>
+                        <option>Merit-based</option>
+                        <option>Need-based</option>
+                        <option>Government</option>
+                        <option>Private</option>
+                    </select>
+
+                    <button class="btn btn-primary full-width-on-mobile" type="button">
+                        Apply filters
+                    </button>
+                </form>
+            </div>
+
+            <!-- Scholarship cards -->
+            <div class="grid grid-3">
+                <!-- Card 1 -->
+                <article class="card scholarship-card">
+                    <p class="badge">Merit-based</p>
+                    <h3>National Talent Search Scholarship</h3>
+                    <p class="meta">Class 10 • All India</p>
+                    <p class="amount">Up to ₹1,25,000 / year</p>
+                    <ul class="detail-list">
+                        <li>Minimum 80% in previous class</li>
+                        <li>Online / offline test</li>
+                        <li>Last date: 30 Jan 2026</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="btn btn-outline-sm">Details</button>
+                        <button class="btn btn-primary-sm">Apply</button>
+                    </div>
+                </article>
+
+                <!-- Card 2 -->
+                <article class="card scholarship-card">
+                    <p class="badge badge-green">Need-based</p>
+                    <h3>Bright Future Engineering Scholarship</h3>
+                    <p class="meta">B.Tech 1st year • Selected states</p>
+                    <p class="amount">Up to ₹75,000 / year</p>
+                    <ul class="detail-list">
+                        <li>Family income below ₹3,00,000</li>
+                        <li>Valid entrance exam rank</li>
+                        <li>Last date: 15 Feb 2026</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="btn btn-outline-sm">Details</button>
+                        <button class="btn btn-primary-sm">Apply</button>
+                    </div>
+                </article>
+
+                <!-- Card 3 -->
+                <article class="card scholarship-card">
+                    <p class="badge badge-blue">Government</p>
+                    <h3>Post Matric Scholarship for SC Students</h3>
+                    <p class="meta">UG & PG • All India</p>
+                    <p class="amount">Fees + stipend as per rules</p>
+                    <ul class="detail-list">
+                        <li>Valid caste & income certificate</li>
+                        <li>Recognised institute only</li>
+                        <li>Dates vary by state</li>
+                    </ul>
+                    <div class="card-actions">
+                        <button class="btn btn-outline-sm">Details</button>
+                        <button class="btn btn-primary-sm">Apply</button>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+</body>
+</html>
