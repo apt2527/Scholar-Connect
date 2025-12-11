@@ -6,40 +6,49 @@
     <title>Categories - ScholarConnect</title>
     <link rel="stylesheet" href="style.css" />
     <style>
-        /* CENTER HERO SECTION */
-.hero-row {
+.home-hero {
+    padding: 70px 0 100px;   /* small top, deeper bottom */
+    background: linear-gradient(to bottom, #ffffff, #f0fdf4);
+}
+
+.hero-inner {
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 60px 0;
+    justify-content: space-between;
+    gap: 50px;                /* balanced spacing */
 }
 
-.hero-text {
-    width: 70%;
+.hero-left {
+    max-width: 56%;
 }
 
-.hero-title {
-    font-size: 32px;
-    font-weight: bold;
-    margin-bottom: 12px;
+.home-title {
+    font-size: 38px;          /* slightly larger */
+    line-height: 46px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 16px;
 }
 
-.hero-subtitle {
-    font-size: 16px;
-    color: #6b7280;
-    line-height: 24px;
-    max-width: 650px;
-    margin: 0 auto;
+.hero-right-img img {
+    width: 550px;             /* increased but still proportional */
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 20px 48px rgba(2,6,23,0.10);
+    border: 1px solid #e5e7eb;
 }
+
 
 /* BROWSE BY LEVEL - TITLES CENTERED */
 .section-title-left {
-    font-size: 26px;
-    margin-bottom: 8px;
+    font-size: 30px;           /* same visual scale as hero */
+    font-weight: 800;          /* bold like hero title */
+    line-height: 44px;         /* same spacing */
     text-align: center;
-    color: #111827;
+    margin-bottom: 10px;
+    color: #065f46            /* same color as hero title */
 }
+
 
 .section-subtitle-left {
     font-size: 14px;
@@ -98,11 +107,14 @@
 
 /* Section title + subtitle */
 .categories-title {
-    font-size: 24px;
+    font-size: 35px;           /* same visual scale as hero */
+    font-weight: 800;          /* bold like hero title */
+    line-height: 44px;         /* same spacing */
     text-align: center;
-    margin-bottom: 6px;
-    color: #111827;
+    margin-bottom: 10px;
+   color: #065f46           /* same color as hero title */
 }
+
 
 .categories-subtitle {
     font-size: 14px;
@@ -223,15 +235,33 @@
     </header>
 
     <!-- HERO -->
-    <section class="section section-alt">
-        <div class="container hero-row">
-            <div class="hero-text">
-                <h1 class="hero-title">Choose your path to the right scholarship</h1>
-                <p class="hero-subtitle">
-                    Start with your current level of study and quickly find categories that match 
-                    your goals, background and financial needs.
-                </p>
-    </section>
+<section class="home-hero section-alt">
+  <div class="container hero-inner">
+    <div class="hero-left">
+      <p class="home-eyebrow">Built for Indian students & parents</p>
+
+      <h1 class="home-title">
+        Choose your path to the right scholarship
+      </h1>
+
+      <p class="home-subtitle">
+        Start with your current level of study and quickly find categories that match
+        your goals, background and financial needs.
+      </p>
+
+      <div class="home-actions">
+        <a href="scholarships.html" class="btn btn-outline">Browse scholarships</a>
+        <a href="quiz.html" class="btn btn-primary">Take eligibility quiz</a>
+      </div>
+    </div>
+
+    <div class="hero-right-img">
+      <img src="ASSETS/CAT HERO.jpg"
+           alt="Students learning together">
+    </div>
+  </div>
+</section>
+
 
     <!-- BROWSE BY LEVEL STRIP -->
     <section class="section">
