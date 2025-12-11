@@ -460,18 +460,29 @@ h2 {
     margin-bottom: 8px;
 }
 
-/* FOOTER FIX (optional) */
-html, body {
-    height: 100%;
+
+.simple-footer {
+    background: #f0fdf4;
+    border-top: 1px solid #d1fae5;
+    padding: 20px 0;
+    text-align: center;
 }
 
-body {
+.simple-footer-inner {
     display: flex;
     flex-direction: column;
+    gap: 6px;
 }
 
-footer,
-.footer {
-    margin-top: auto;
+.footer-brand {
+    font-size: 18px;
+    font-weight: 800;
+    color: #065f46;
+    letter-spacing: 0.5px;
+}
+
+.footer-copy {
+    font-size: 13px;
+    color: #4b5563;
 }
 
