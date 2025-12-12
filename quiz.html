@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Quiz - ScholarConnect</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .auth-overlay {
+      position: fixed; inset:0; display:flex; align-items:center; justify-content:center;
+      background: rgba(2,6,23,0.5); z-index:400; padding:20px;
+    }
+    .auth-card { width:420px; background:#fff; border-radius:12px; padding:18px; border:1px solid #e5e7eb; box-shadow:0 14px 40px rgba(2,6,23,0.12);}
+    .quiz-card { margin-top:18px; }
+    .small-link { color:#064e3b; font-weight:600; text-decoration:none; }
+    .results { margin-top:18px; }
+    .badge-verified { display:inline-block; background:#ecfdf5; color:#065f46; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #bbf7d0; margin-right:8px;}
+    .badge-unverified { display:inline-block; background:#fff7ed; color:#92400e; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #ffd8a8; margin-right:8px;}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <span class="logo-icon"><a href="index.html"><img src="ASSETS/LOGO.jpg" alt="LOGO" style="width:70px;"></a></span>
+        <span class="logo-text"><a href="index.html">ScholarConnect</a></span>
+      </div>
+
+      <nav class="nav-links">
+        <a href="index.html#home">Home</a>
+        <a href="scholarships.html">Scholarships</a>
+        <a href="categories.html">Categories</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="support.html">Support</a>
+      </nav>
+
+      <div class="nav-actions" id="nav-auth-actions">
+        <!-- will be updated by JS -->
+        <a id="hdr-login" href="login.html?next=quiz.html" class="btn btn-outline">Login</a>
+        <a id="hdr-signup" href="signup.html?next=quiz.html" class="btn btn-primary">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container" style="max-width:760px;margin:0 auto;">
+      <div class="card quiz-card">
+        <h2>Quick 5-question eligibility quiz</h2>
+        <p class="page-subtitle">Answer a few quick questions — we'll recommend the best matching scholarships.</p>
+
+        <div id="greeting-area"></div>
+        <div id="quiz-area"></div>
+        <div id="results" class="results"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="simple-footer">
+    <div class="container simple-footer-inner">
+      <p class="footer-brand">ScholarConnect</p>
+      <p class="footer-copy">© 2025 ScholarConnect • All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Simple overlay prompting sign-in if required -->
+  <div id="auth-overlay" class="auth-overlay" style="display:none;">
+    <div class="auth-card">
+      <h3>Sign up or log in to take the quiz</h3>
+      <p class="small">We need a demo sign-in so we can save your quiz and show personalized matches. No backend — local demo account only.</p>
+      <div style="display:flex; gap:10px; margin-top:12px;">
+        <a class="btn btn-outline" href="login.html?next=quiz.html">Login</a>
+        <a class="btn btn-primary" href="signup.html?next=quiz.html">Sign up</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auth helpers
+    function getUser(){ return JSON.parse(localStorage.getItem('sc_user') || 'null'); }
+    function signedIn(){ return !!localStorage.getItem('sc_user'); }
+    function signOut(){ localStorage.removeItem('sc_user'); location.reload(); }
+
+    // quiz questions
+    const QUESTIONS = [
+      { id:'level', q:'What is your current level of study?', options:[{k:'class9-12',t:'Class 9–12'},{k:'undergrad',t:'Undergraduate'},{k:'postgrad',t:'Postgraduate / Research'}] },
+      { id:'field', q:'Which field are you pursuing or planning?', options:[{k:'engineering',t:'Engineering / Technology'},{k:'science',t:'Basic & Natural Sciences'},{k:'commerce',t:'Commerce / Arts / Management'},{k:'other',t:'Other / Professional'}] },
+      { id:'income', q:'Is your family income below ₹8 lakh per year?', options:[{k:'yes',t:'Yes'},{k:'no',t:'No'}] },
+      { id:'gender', q:'Identify your gender (for gender-targeted schemes)', options:[{k:'female',t:'Female'},{k:'male',t:'Male'},{k:'other',t:'Prefer not to say'}] },
+      { id:'merit', q:'Have you scored in the top 1% or a top rank in board/JEE/other national exams?', options:[{k:'top',t:'Yes — top ranks / top 1%'},{k:'nope',t:'No'}] }
+    ];
+
+    // scholarship mapping for results (id matches anchors in scholarships.html)
+    const SCH_MAP = {
+      nsp: { title:'National Scholarship Portal (NSP)', verified:true },
+      'central-sector': { title:'PM-USP Central Sector Scheme (CSSS)', verified:true },
+      'aicte-pragati': { title:'AICTE Pragati Scholarship (Girls)', verified:true },
+      inspire: { title:'INSPIRE (DST) — SHE', verified:true },
+      pmss: { title:"Prime Minister's Scholarship Scheme (PMSS)", verified:true },
+      'kotak-kanya': { title:'Kotak Kanya Scholarship', verified:false },
+      'lic-hfl': { title:'LIC HFL Vidyadhan', verified:false },
+      'hdfc-ecss': { title:'HDFC Parivartan ECSS', verified:false },
+      'lt-bis': { title:'L&T Build India Scholarship (BIS)', verified:false },
+      manf: { title:'Maulana Azad National Fellowship (MANF) — note', verified:false }
+    };
+
+    // render UI
+    const quizArea = document.getElementById('quiz-area');
+    const resultsArea = document.getElementById('results');
+    const greetingArea = document.getElementById('greeting-area');
+    const navAuthActions = document.getElementById('nav-auth-actions');
+    const authOverlay = document.getElementById('auth-overlay');
+
+    function renderAuthHeader(){
+      if(signedIn()){
+        const user = getUser();
+        navAuthActions.innerHTML = `<div style="display:flex;gap:10px;align-items:center;"><span class="small">Signed in as <strong>${escapeHtml(user.name || user.email)}</strong></span><a id="signout-btn" href="#" class="btn btn-outline">Sign out</a></div>`;
+        document.getElementById('signout-btn').addEventListener('click', function(e){ e.preventDefault(); if(confirm('Sign out?')) signOut(); });
+      } else {
+        navAuthActions.innerHTML = `<a id="hdr-login" href="login.html?next=quiz.html" class="btn btn-outline">Login</a><a id="hdr-signup" href="signup.html?next=quiz.html" class="btn btn-primary">Sign up</a>`;
+      }
+    }
+
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+    function renderQuiz(){
+      quizArea.innerHTML = '';
+      QUESTIONS.forEach((qs, idx)=>{
+        const block = document.createElement('div');
+        block.className = 'card-section';
+        block.style.marginBottom = '10px';
+        let html = `<h4 style="margin-bottom:8px;">${idx+1}. ${qs.q}</h4>`;
+        qs.options.forEach(opt=>{
+          html += `<label style="display:flex; gap:10px; align-items:center; margin-bottom:6px;"><input name="${qs.id}" type="radio" value="${opt.k}" /> <span>${opt.t}</span></label>`;
+        });
+        block.innerHTML = html;
+        quizArea.appendChild(block);
+      });
+      const btnWrap = document.createElement('div');
+      btnWrap.style.marginTop = '12px';
+      btnWrap.innerHTML = `<button id="submit-quiz" class="btn btn-primary">Get personalised matches</button>`;
+      quizArea.appendChild(btnWrap);
+      document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
+    }
+
+    function submitQuiz(){
+      // validate
+      const answers = {};
+      for(const q of QUESTIONS){
+        const el = document.querySelector(`input[name="${q.id}"]:checked`);
+        if(!el){ alert('Please answer: ' + q.q); return; }
+        answers[q.id] = el.value;
+      }
+
+      // simple mapping logic
+      const matches = [];
+      matches.push('nsp'); // always useful
+
+      if(answers.merit==='top' || answers.level==='undergrad' || answers.level==='postgrad') matches.push('central-sector');
+      if(answers.gender==='female' && answers.field==='engineering' && answers.level==='undergrad') matches.push('aicte-pragati');
+      if(answers.merit==='top' && answers.field==='science') matches.push('inspire');
+      if(answers.level==='postgrad') matches.push('manf');
+      if(answers.income==='yes') {
+        matches.push('hdfc-ecss','lic-hfl');
+      }
+      // always include PMSS as info card (user must check eligibility)
+      matches.push('pmss');
+
+      showResults(matches);
+    }
+
+    function showResults(ids){
+      resultsArea.innerHTML = '<h3>Recommended scholarships</h3>';
+      ids.forEach(id=>{
+        const s = SCH_MAP[id] || { title:id, verified:false };
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.marginBottom = '10px';
+        const badge = s.verified ? `<span class="badge-verified">Verified</span>` : `<span class="badge-unverified">Non-verified</span>`;
+        card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;"><div><h4 style="margin-bottom:6px;">${badge}${escapeHtml(s.title)}</h4><p class="small">Click to view full details on the scholarships page.</p></div><div><a class="btn btn-outline" href="scholarships.html#${encodeURIComponent(id)}">View details</a></div></div>`;
+        resultsArea.appendChild(card);
+      });
+      resultsArea.innerHTML += '<p class="small" style="margin-top:8px;">Note: "Verified" means the scheme has an official central/state portal reference; "Non-verified" means the scheme is CSR / partner-run and you should confirm current year details on the official provider page.</p>';
+    }
+
+    // Init
+    window.addEventListener('load', ()=>{
+      renderAuthHeader();
+      if(!signedIn()){
+        // show overlay
+        authOverlay.style.display = 'flex';
+        quizArea.innerHTML = '';
+      } else {
+        authOverlay.style.display = 'none';
+        const user = getUser();
+        greetingArea.innerHTML = `<div class="card-section small">Signed in as <strong>${escapeHtml(user.name||user.email)}</strong> — your answers are not shared in this demo. (<a href="#" id="logout-inline" class="small-link">Sign out</a>)</div>`;
+        document.getElementById('logout-inline').addEventListener('click', e=>{ e.preventDefault(); if(confirm('Sign out?')) signOut(); });
+        renderQuiz();
+      }
+    });
+  </script>
+</body>
+</html>

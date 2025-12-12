@@ -1,20 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Scholarships - ScholarConnect</title>
-    <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Scholarships - ScholarConnect</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Modal using :target (pure CSS) */
+    .sch-modal-overlay { position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.55); z-index:400; padding:18px; }
+    .sch-modal { background:#fff; width:100%; max-width:920px; border-radius:12px; padding:20px; box-shadow:0 24px 60px rgba(2,6,23,0.18); max-height:86vh; overflow:auto; }
+    .sch-modal-overlay:target { display:flex; }
+    .sch-modal-close { float:right; text-decoration:none; color:#111827; font-size:20px; }
+    .tag-verified { display:inline-block; background:#ecfdf5; color:#065f46; padding:4px 9px; border-radius:999px; border:1px solid #bbf7d0; font-weight:700; margin-right:8px; font-size:12px;}
+    .tag-unverified { display:inline-block; background:#fff7ed; color:#92400e; padding:4px 9px; border-radius:999px; border:1px solid #ffd8a8; font-weight:700; margin-right:8px; font-size:12px;}
+    .sch-card-top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .sch-meta { font-size:13px; color:#6b7280; margin-bottom:8px; }
+    .sch-section-title { margin-top:10px; margin-bottom:6px; color:#064e3b; font-size:16px; }
+    .checklist { margin-left:16px; }
+    .sep { height:1px; background:#e5e7eb; margin:12px 0; }
+    code { background:#f3f4f6; padding:2px 6px; border-radius:6px; font-size:0.95em; }
+  </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <header class="navbar">
-        <div class="container nav-inner">
-            <div class="logo">
-               <span class="logo-icon"><a href="index.html"><img src="ASSETS/LOGO.jpg" alt="LOGO" style="width: 70px;"></a></span>
-                <span class="logo-text"><a href="index.html">ScholarConnect</a></span>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <div class="logo"><span class="logo-icon"><a href="index.html"><img src="ASSETS/LOGO.jpg" alt="LOGO" style="width:70px;"></a></span><span class="logo-text"><a href="index.html">ScholarConnect</a></span></div>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="scholarships.html" class="active">Scholarships</a>
+        <a href="categories.html">Categories</a>
+        <a href="how-it-works.html">How it works</a>
+        <a href="support.html">Support</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="login.html?next=scholarships.html" class="btn btn-outline">Login</a>
+        <a href="signup.html?next=scholarships.html" class="btn btn-primary">Sign up</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+      <h2 style="margin-bottom:6px;">Scholarships — full details & how to apply</h2>
+      <p class="page-subtitle" style="margin-bottom:18px;">
+        Below are simplified, student-friendly summaries of important Indian scholarships and CSR programmes.
+        Each card has a <em>Know more</em> button — click it to open a detailed modal with step-by-step application instructions,
+        a point-by-point document checklist, benefits and practical tips.
+      </p>
+
+      <div class="doc-layout">
+        <div class="doc-main">
+
+          <!-- 1. NSP -->
+          <div class="card-section" id="nsp">
+            <div class="sch-card-top">
+              <div>
+                <span class="tag-verified">Verified</span>
+                <h3 class="section-title" style="display:inline-block;">National Scholarship Portal (NSP)</h3>
+              </div>
+              <div class="sch-meta">Central gateway for many central & state scholarships (One-Time Registration required).</div>
             </div>
 
+<<<<<<< HEAD
+            <p class="small">
+              NSP is the official Government of India portal where students register (OTR) and apply for a wide range of centrally-sponsored and many state scholarships.
+              You use a one-time registration (OTR) and then apply to scheme(s) each year. See the NSP portal for the latest scheme list and PDFs. :contentReference[oaicite:5]{index=5}
+            </p>
+=======
             <nav class="nav-links">
                 <a href="index.html">Home</a>
                 <a href="scholarships.html">Scholarships</a>
@@ -23,13 +77,470 @@
                 <a href="support.html">Support</a>
                                 <a href="about.html">About</a>
             </nav>
+>>>>>>> 2a184eff5d4da412e52143ab6e4799df394525a6
 
-            <div class="nav-actions">
-                <a href="login.html" class="btn btn-outline">Login</a>
-                <a href="signup.html" class="btn btn-primary">Sign up</a>
+            <ul class="checklist">
+              <li><strong>Who:</strong> School, college and professional students depending on the scheme.</li>
+              <li><strong>Typical documents:</strong> Aadhaar, bank passbook/cancelled cheque, photo, income certificate (if required), caste/disability proof, last marksheet, admission/fee receipt.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-nsp">Know more</a>
+          </div>
+
+          <!-- 2. PM-USP CSSS -->
+          <div class="card-section" id="central-sector">
+            <div class="sch-card-top">
+              <div><span class="tag-verified">Verified</span><h3 class="section-title" style="display:inline-block;">PM-USP: Central Sector Scheme of Scholarship (CSSS)</h3></div>
+              <div class="sch-meta">Merit-cum-means support for Class-12 toppers now in college — central scheme via NSP.</div>
             </div>
+
+            <p class="small">
+              CSSS provides financial help to bright students from lower-income families to continue UG/PG studies. Typical benefits and renewal rules are published by the Ministry/NSP; amounts commonly used in recent years are ₹12,000 p.a. for UG (first 3 years) and ₹20,000 p.a. for PG / later years of 5-year courses. Confirm amounts and rules in the scheme notice on NSP / Ministry pages. :contentReference[oaicite:6]{index=6}
+            </p>
+
+            <ul class="checklist">
+              <li><strong>Level:</strong> UG / PG regular degrees (not distance) — scheme varies by course-type.</li>
+              <li><strong>Typical eligibility:</strong> Good Class-12 performance (board percentile cutoffs), family income limit (example: ≤ ₹4.5 lakh — check current year), admission to a recognised college.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-central-sector">Know more</a>
+          </div>
+
+          <!-- 3. AICTE Pragati -->
+          <div class="card-section" id="aicte-pragati">
+            <div class="sch-card-top">
+              <div><span class="tag-verified">Verified</span><h3 class="section-title" style="display:inline-block;">AICTE Pragati Scholarship (for girls)</h3></div>
+              <div class="sch-meta">Encourages girls to join and remain in technical education (AICTE-approved).</div>
+            </div>
+
+            <p class="small">
+              AICTE Pragati gives financial support to girl students admitted to first year (or lateral entry second year) in AICTE-approved diploma/degree technical courses.
+              Recent rounds have shown a benefit amount of around ₹50,000 per year for selected students — check AICTE/NSP for the exact current value and deadlines. :contentReference[oaicite:7]{index=7}
+            </p>
+
+            <ul class="checklist">
+              <li><strong>Who:</strong> Female students in AICTE-approved technical colleges (first year or lateral entry).</li>
+              <li><strong>Common doc checklist:</strong> Admission letter, fee receipt, class marksheets, income certificate, Aadhaar, bank passbook.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-aicte-pragati">Know more</a>
+          </div>
+
+          <!-- 4. INSPIRE SHE -->
+          <div class="card-section" id="inspire">
+            <div class="sch-card-top">
+              <div><span class="tag-verified">Verified</span><h3 class="section-title" style="display:inline-block;">INSPIRE — Scholarship for Higher Education (SHE)</h3></div>
+              <div class="sch-meta">DST scheme for top natural & basic science students (highly merit-based).</div>
+            </div>
+
+            <p class="small">
+              INSPIRE-SHE supports students who choose basic & natural sciences (B.Sc / Int. M.Sc etc.) and who are among the top performers (for example: within the top 1% of Class-XII boards or holding high national ranks). The INSPIRE portal provides explicit eligibility lists and application instructions. :contentReference[oaicite:8]{index=8}
+            </p>
+
+            <ul class="checklist">
+              <li><strong>Who:</strong> Students pursuing eligible basic science courses with top percentile/rank criteria.</li>
+              <li><strong>Common docs:</strong> Class-12 marksheet, college admission proof, endorsement form from principal (INSPIRE format), Aadhaar, bank details.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-inspire">Know more</a>
+          </div>
+
+          <!-- 5. PMSS (Kendriya Sainik Board / DESW) -->
+          <div class="card-section" id="pmss">
+            <div class="sch-card-top">
+              <div><span class="tag-verified">Verified</span><h3 class="section-title" style="display:inline-block;">Prime Minister's Scholarship Scheme (PMSS)</h3></div>
+              <div class="sch-meta">For widows and wards of ex-servicemen / ex-Coast Guard personnel (admin by DESW/KSB).</div>
+            </div>
+
+            <p class="small">
+              PMSS supports eligible dependents of defence personnel to pursue professional courses and provides a monthly stipend (amounts & rules are published per year by DESW / KSB). Always read the official brochure before applying. :contentReference[oaicite:9]{index=9}
+            </p>
+
+            <ul class="checklist">
+              <li><strong>Who:</strong> Wards/widows of ex-servicemen as defined in PMSS rules.</li>
+              <li><strong>Docs:</strong> Service/discharge documents of parent, relationship proof, admission proof, bank passbook, Aadhaar, photos.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-pmss">Know more</a>
+          </div>
+
+          <!-- 6. Kotak Kanya (CSR) -->
+          <div class="card-section" id="kotak-kanya">
+            <div class="sch-card-top">
+              <div><span class="tag-unverified">Non-verified</span><h3 class="section-title" style="display:inline-block;">Kotak Kanya Scholarship (Kotak Education Foundation)</h3></div>
+              <div class="sch-meta">CSR scholarship: tuition & study support for meritorious girls from low-income homes.</div>
+            </div>
+
+            <p class="small">
+              Kotak Kanya is a CSR-run scholarship. Amounts, number of awards and exact eligibility may change each year — check Kotak Education Foundation's official page for details and application windows.
+            </p>
+
+            <ul class="checklist">
+              <li><strong>Typical docs:</strong> Class-12 marksheet, income documents, admission/fee receipts, bank details, photo, identity.</li>
+            </ul>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-kotak-kanya">Know more</a>
+          </div>
+
+          <!-- 7. LIC HFL Vidyadhan (CSR) -->
+          <div class="card-section" id="lic-hfl">
+            <div class="sch-card-top">
+              <div><span class="tag-unverified">Non-verified</span><h3 class="section-title" style="display:inline-block;">LIC HFL Vidyadhan Scholarship</h3></div>
+              <div class="sch-meta">Merit + need scholarships across different education levels (CSR / foundation).</div>
+            </div>
+
+            <p class="small">
+              LIC HFL’s Vidyadhan supports meritorious students from weaker financial backgrounds — check the LIC HFL site for current scheme windows and exact eligibility each year.
+            </p>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-lic-hfl">Know more</a>
+          </div>
+
+          <!-- 8. HDFC Parivartan ECSS -->
+          <div class="card-section" id="hdfc-ecss">
+            <div class="sch-card-top">
+              <div><span class="tag-unverified">Non-verified</span><h3 class="section-title" style="display:inline-block;">HDFC Parivartan — Educational Crisis Scholarship Support (ECSS)</h3></div>
+              <div class="sch-meta">Helps students in financial crisis across school, UG & PG levels.</div>
+            </div>
+
+            <p class="small">Category-specific help (amounts & process vary). Check Parivartan ECSS pages in the application window.</p>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-hdfc-ecss">Know more</a>
+          </div>
+
+          <!-- 9. L&T Build India Scholarship -->
+          <div class="card-section" id="lt-bis">
+            <div class="sch-card-top">
+              <div><span class="tag-unverified">Non-verified</span><h3 class="section-title" style="display:inline-block;">L&amp;T Build India Scholarship (BIS)</h3></div>
+              <div class="sch-meta">Industry scholarship for final-year civil/electrical students pursuing M.Tech (job link in many cases).</div>
+            </div>
+
+            <p class="small">Sponsorship + stipend; shortlisted students typically go through tests and interviews with partner institutes / L&T.</p>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-lt-bis">Know more</a>
+          </div>
+
+          <!-- 10. MANF (note) -->
+          <div class="card-section" id="manf">
+            <div class="sch-card-top">
+              <div><span class="tag-unverified">Non-verified</span><h3 class="section-title" style="display:inline-block;">Maulana Azad National Fellowship (MANF) — note</h3></div>
+              <div class="sch-meta">Historical research fellowship for minority students — check UGC / MoMA for current status.</div>
+            </div>
+
+            <p class="small">MANF has seen policy changes; for fresh research fellowships look to UGC / Ministry of Minority Affairs / NSP updates.</p>
+
+            <a class="btn btn-outline-sm btn-know-more" href="#modal-manf">Know more</a>
+          </div>
+
+          <p class="small" style="margin-top:10px;">
+            <strong>Important:</strong> The summaries above are simplified. Always read the official notification / PDF for the specific academic year before applying — eligibility, income cutoffs, benefit amounts and deadlines change year to year.
+          </p>
         </div>
-    </header>
-    
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <h3>Quick actions</h3>
+          <p class="small">Jump to a scheme:</p>
+          <ul class="sidebar-list">
+            <li><a href="#nsp">NSP</a></li>
+            <li><a href="#central-sector">PM-USP CSSS</a></li>
+            <li><a href="#aicte-pragati">AICTE Pragati</a></li>
+            <li><a href="#inspire">INSPIRE (SHE)</a></li>
+            <li><a href="#pmss">PMSS</a></li>
+            <li><a href="#kotak-kanya">Kotak Kanya</a></li>
+            <li><a href="#lic-hfl">LIC HFL</a></li>
+            <li><a href="#hdfc-ecss">HDFC ECSS</a></li>
+            <li><a href="#lt-bis">L&amp;T BIS</a></li>
+          </ul>
+
+          <div style="height:12px"></div>
+          <a class="btn btn-primary btn-block sidebar-btn" href="quiz.html">Take eligibility quiz</a>
+          <a class="btn btn-outline btn-block sidebar-btn" href="support.html" style="margin-top:8px;">Need help?</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- DETAILED MODALS (long text: eligibility, doc checklist, step-by-step apply) -->
+  <!-- NSP modal -->
+  <div id="modal-nsp" class="sch-modal-overlay" aria-hidden="true">
+    <div class="sch-modal" role="dialog" aria-labelledby="modal-nsp-title">
+      <a class="sch-modal-close" href="#" aria-label="Close">&times;</a>
+      <h3 id="modal-nsp-title" class="sch-section-title">National Scholarship Portal (NSP) — detailed guide</h3>
+
+      <p class="small">
+        NSP is the Government of India’s central portal for many scholarships. You must register once (One-Time Registration — OTR) and use that OTR to apply for schemes each year. Always open the scheme’s PDF (Guidelines) on NSP before applying. :contentReference[oaicite:10]{index=10}
+      </p>
+
+      <div class="sep"></div>
+
+      <div class="sch-section-title">Step-by-step: How to apply (generic NSP flow)</div>
+      <ol class="checklist small">
+        <li><strong>Step 1 — OTR (One-Time Registration):</strong> Go to <a href="https://scholarships.gov.in" target="_blank" rel="noopener">scholarships.gov.in</a> → New Registration / OTR. You will need Aadhaar/EID, mobile number and email. (OTR gives you a 14-digit OTR ID.)</li>
+        <li><strong>Step 2 — Complete profile:</strong> Login with OTR ID & password, fill in personal, address, institute, and bank details carefully — these are reused across applications.</li>
+        <li><strong>Step 3 — Choose scheme:</strong> Under “Apply for Scholarship”, select the academic year and the scheme you want (the list shows only schemes open for your profile).</li>
+        <li><strong>Step 4 — Fill scheme form:</strong> Provide scheme-specific answers, upload scanned documents (PDF/JPG) as per the scheme PDF guidelines (size & format matter).</li>
+        <li><strong>Step 5 — Institute verification:</strong> Submit the form — your institute verifies details, then state / nodal officer verifies and the sanction is processed.</li>
+        <li><strong>Step 6 — Track status:</strong> Use NSP dashboard to track institute verification, state verification and payment status (PFMS/DBT details appear after sanction).</li>
+      </ol>
+
+      <div class="sch-section-title">Documents commonly required on NSP</div>
+      <ul class="checklist">
+        <li>Aadhaar or alternate identity (as allowed by the scheme).</li>
+        <li>Passport-size photo (JPEG) and scanned signature if required.</li>
+        <li>Bank passbook front page / cancelled cheque (student name, account number, IFSC).</li>
+        <li>Income certificate (if scheme has income eligibility) — issued by the competent authority.</li>
+        <li>Caste / category certificate (SC/ST/OBC) if applicable, PwD certificate for disability benefits.</li>
+        <li>Last passed examination marksheet and current year admission proof / fee receipt.</li>
+      </ul>
+
+      <div class="sch-section-title">Tips & common pitfalls</div>
+      <ul class="checklist">
+        <li>Check the scheme PDF for exact income cutoffs and supporting document formats before uploading.</li>
+        <li>Ensure Aadhaar is linked to the bank account if DBT (direct benefit transfer) is required by the scheme.</li>
+        <li>Institute verification is mandatory — follow up with your college/institute after submission.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CSSS modal -->
+  <div id="modal-central-sector" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">PM-USP: Central Sector Scheme of Scholarship (CSSS) — full details</h3>
+
+      <p class="small">
+        The Central Sector Scheme supports meritorious students from lower income backgrounds to continue higher education. Typical benefit patterns and renewal rules are published in the official circular and on NSP — examples of commonly reported amounts: ₹12,000 p.a. for undergraduate years and ₹20,000 p.a. for postgraduate / later years of integrated 5-year courses. Always confirm the current academic year brochure on NSP / Ministry sites. :contentReference[oaicite:11]{index=11}
+      </p>
+
+      <div class="sep"></div>
+
+      <div class="sch-section-title">Eligibility (summary)</div>
+      <ul class="checklist">
+        <li>Passed Class-12 and enrolled in regular UG/PG degree (not distance) at a recognised institute.</li>
+        <li>Board percentile / cutoffs — scheme sets minimum percentile in Class-12 (check current year PDF).</li>
+        <li>Family income must be below the scheme limit (example: ≤ ₹4.5 lakh — verify current year).</li>
+        <li>Not receiving duplicative central/state scholarship where rules prohibit double benefits.</li>
+      </ul>
+
+      <div class="sch-section-title">Documents checklist</div>
+      <ul class="checklist">
+        <li>Class-12 marksheet / percentile proof.</li>
+        <li>Admission/fee receipt for current academic year.</li>
+        <li>Income certificate (format as per state rules / scheme PDF).</li>
+        <li>Bank passbook (Aadhaar-linked account recommended), Aadhaar or alternate ID.</li>
+        <li>Caste / disability certificate where applicable.</li>
+      </ul>
+
+      <div class="sch-section-title">How to apply (point by point)</div>
+      <ol class="checklist small">
+        <li>Register / login on NSP (One-Time Registration).</li>
+        <li>Complete profile and choose “PM-USP Central Sector Scheme of Scholarship” (scheme names may vary slightly on NSP).</li>
+        <li>Fill all fields and upload documents exactly as the PDF specifies (rename files if needed, check sizes).</li>
+        <li>Submit, then ensure institute verifies. Track status on NSP dashboard until payment (DBT) appears.</li>
+      </ol>
+
+      <div class="sch-section-title">Renewal & continuation</div>
+      <ul class="checklist">
+        <li>Renewal usually requires minimum percentage/attendance criteria — check the scheme PDF.</li>
+        <li>Keep bank and Aadhaar details unchanged during the period of sanction for smoother DBT transfers.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- AICTE Pragati modal -->
+  <div id="modal-aicte-pragati" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">AICTE Pragati Scholarship — detailed</h3>
+
+      <p class="small">
+        AICTE Pragati is directed at female students in technical diploma/degree courses approved by AICTE. Recent notices indicate significant per-student amounts (commonly reported around ₹50,000 per year) and family income caps — always confirm exact numbers & cutoffs in the current AICTE / NSP notification. :contentReference[oaicite:12]{index=12}
+      </p>
+
+      <div class="sep"></div>
+
+      <div class="sch-section-title">Who is eligible (summary)</div>
+      <ul class="checklist">
+        <li>Female students admitted to 1st year of an AICTE-approved degree/diploma OR 2nd year lateral entry as specified.</li>
+        <li>Family income usually restricted (example thresholds like ₹8 lakh appear in some notices — check current year).</li>
+        <li>Maximum number of girls per family may be limited (e.g., two in some notifications).</li>
+      </ul>
+
+      <div class="sch-section-title">Documents you will typically need</div>
+      <ul class="checklist">
+        <li>Admission letter / seat allotment / fee receipt showing tuition charged.</li>
+        <li>Class X/XII mark sheets (proof of qualification), ID proof (Aadhaar).</li>
+        <li>Income proof (income certificate / salary slips / ITR) of parents/guardian.</li>
+        <li>Bank account details (passbook/cancelled cheque) in student’s name.</li>
+      </ul>
+
+      <div class="sch-section-title">How to apply (point by point)</div>
+      <ol class="checklist small">
+        <li>Open <a href="https://scholarships.gov.in" target="_blank" rel="noopener">scholarships.gov.in</a> / NSP when AICTE Pragati is accepting applications.</li>
+        <li>Login using your OTR ID (One-Time Registration) or create OTR first.</li>
+        <li>Find the Pragati scheme in the list, carefully read the scheme PDF and FAQs.</li>
+        <li>Fill the form, upload scanned documents as requested (pay special attention to income evidence and the fee receipt), submit and follow up with your institute for verification.</li>
+      </ol>
+
+      <div class="sch-section-title">Tips</div>
+      <ul class="checklist">
+        <li>Keep a clear copy of admission / fee receipt showing tuition (this is commonly required for validation).</li>
+        <li>If your family has variable income (seasonal or agriculture), check which proof is acceptable (income certificate / ITR).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- INSPIRE modal -->
+  <div id="modal-inspire" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">INSPIRE — Scholarship for Higher Education (SHE)</h3>
+
+      <p class="small">
+        INSPIRE-SHE is administered by DST and targets students who choose natural & basic sciences at UG/PG level and meet high merit criteria (for example, often top 1% in Class-12 or specified rank thresholds). The INSPIRE portal provides the official application form, endorsement formats and FAQs. :contentReference[oaicite:13]{index=13}
+      </p>
+
+      <div class="sep"></div>
+
+      <div class="sch-section-title">Typical eligibility routes</div>
+      <ul class="checklist">
+        <li>Students within top 1% of the Class-12 board in eligible subjects, pursuing B.Sc / Int. M.Sc / B.S etc.</li>
+        <li>Or rank-based eligibility via national tests / KVPY etc. (see INSPIRE FAQ for exact accepted ranks).</li>
+      </ul>
+
+      <div class="sch-section-title">Documents checklist</div>
+      <ul class="checklist">
+        <li>Class-12 marksheet / rank proof (board certificate / rank card).</li>
+        <li>Admission proof to eligible basic science course / institute.</li>
+        <li>Endorsement form from college principal (INSPIRE format — available on their portal).</li>
+        <li>ID proof (Aadhaar), bank details, passport photo.</li>
+      </ul>
+
+      <div class="sch-section-title">How to apply</div>
+      <ol class="checklist small">
+        <li>Register on the INSPIRE online portal (<a href="https://online-inspire.gov.in" target="_blank" rel="noopener">online-inspire.gov.in</a>).</li>
+        <li>Complete the application, upload documents (endorsement form by college may be required), submit and track application status.</li>
+        <li>INSPIRE has specific formats for some documents (endorsement, performance reports) — download these from the portal before applying.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- PMSS modal -->
+  <div id="modal-pmss" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">PMSS — Prime Minister's Scholarship Scheme (Kendriya Sainik Board / DESW)</h3>
+
+      <p class="small">
+        PMSS is aimed at widows and wards of ex-servicemen / ex-Coast Guard personnel for professional education. Exact eligibility, stipend levels and application procedures are published on DESW / Kendriya Sainik Board websites and vary by year. Always follow the official brochure. :contentReference[oaicite:14]{index=14}
+      </p>
+
+      <div class="sep"></div>
+
+      <div class="sch-section-title">Eligibility & documents (typical)</div>
+      <ul class="checklist">
+        <li>Proof of parent/guardian’s service/discharge (service record, PPO, discharge book).</li>
+        <li>Relationship certificate to the ex-serviceman / ex-Coast Guard (as applicable).</li>
+        <li>Admission proof in eligible professional course (fee receipt, admission letter).</li>
+        <li>Bank account (Aadhaar-linked where required), ID proof, photos.</li>
+      </ul>
+
+      <div class="sch-section-title">How to apply</div>
+      <ol class="checklist small">
+        <li>Visit the official DESW / KSB PMSS page (links change; the authoritative pages list the current online portal and brochure).</li>
+        <li>Read instructions and brochure carefully for required documents and deadlines.</li>
+        <li>Register / apply via the specified online portal, upload documents and retain acknowledgement for tracking.</li>
+      </ol>
+
+      <div class="sch-section-title">Tip</div>
+      <ul class="checklist">
+        <li>Contact your local Zila Sainik Board / Sainik Welfare Department for help with service documents if you have difficulty obtaining originals.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Kotak Kanya modal -->
+  <div id="modal-kotak-kanya" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">Kotak Kanya Scholarship — practical guide</h3>
+      <p class="small">Kotak Education Foundation runs the Kotak Kanya scholarship (CSR). Details vary year-to-year; check the foundation website for the current application window.</p>
+
+      <div class="sep"></div>
+      <div class="sch-section-title">Common documents</div>
+      <ul class="checklist">
+        <li>Class-12 marksheet / qualifying exam proof; admission / seat allotment letter.</li>
+        <li>Family income proof (income certificate / ITR / salary slips).</li>
+        <li>Bank details, Aadhaar, passport photo, fee receipts.</li>
+      </ul>
+
+      <div class="sch-section-title">How to apply</div>
+      <ol class="checklist small">
+        <li>Visit Kotak Education Foundation or the partner portal listed in the notification.</li>
+        <li>Register, complete the online form and upload documents in specified formats.</li>
+        <li>Shortlisted students may go through verification interviews or additional checks.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- LIC HFL modal -->
+  <div id="modal-lic-hfl" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">LIC HFL Vidyadhan — details</h3>
+      <p class="small">LIC HFL’s Vidyadhan supports different levels (school/UG/PG) with merit+need criteria. Check LIC HFL notice for annual windows and applicant categories.</p>
+
+      <div class="sep"></div>
+      <div class="sch-section-title">Common documents</div>
+      <ul class="checklist">
+        <li>ID (Aadhaar), marksheet of last qualifying exam, income certificate, admission/fee receipts, bank passbook.</li>
+      </ul>
+
+      <div class="sch-section-title">Apply</div>
+      <ol class="checklist small">
+        <li>Open the LIC HFL Vidyadhan page or partner portal when applications are invited and follow the registration instructions.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- HDFC ECSS modal -->
+  <div id="modal-hdfc-ecss" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">HDFC Parivartan — ECSS (Educational Crisis Scholarship Support)</h3>
+      <p class="small">Parivartan ECSS helps students facing financial crises; it covers a range of levels and categories. The Parivartan portal / partner pages will have the current category rules.</p>
+
+      <div class="sep"></div>
+      <div class="sch-section-title">How to apply</div>
+      <ol class="checklist small">
+        <li>Check HDFC Parivartan’s official site or partner platforms for the ECSS application page and deadlines.</li>
+        <li>Register and upload documents as requested (income proof, admission proof, identity, bank details).</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- L&T BIS modal -->
+  <div id="modal-lt-bis" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">L&amp;T Build India Scholarship (BIS)</h3>
+      <p class="small">Industry-linked scholarship for final-year civil/electrical engineering students; benefits often include tuition sponsorship for M.Tech and stipends plus possible employment opportunities on completion.</p>
+
+      <div class="sep"></div>
+      <div class="sch-section-title">Apply</div>
+      <ol class="checklist small">
+        <li>Visit L&amp;T Build India scholarship page or the partner institute page listed in the notification.</li>
+        <li>Shortlisted applicants typically undergo tests and interviews; read the partner institute’s instructions carefully.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- MANF modal -->
+  <div id="modal-manf" class="sch-modal-overlay">
+    <div class="sch-modal"><a class="sch-modal-close" href="#">&times;</a>
+      <h3 class="sch-section-title">Maulana Azad National Fellowship (MANF) — current note</h3>
+      <p class="small">MANF historically provided fellowships to minority students for M.Phil / Ph.D. Recent policy changes affected fresh selections — check UGC / Ministry of Minority Affairs / NSP for current research fellowship alternatives.</p>
+    </div>
+  </div>
+
+  <footer class="simple-footer">
+    <div class="container simple-footer-inner">
+      <p class="footer-brand">ScholarConnect</p>
+      <p class="footer-copy">© 2025 ScholarConnect • All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>
