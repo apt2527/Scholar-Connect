@@ -5,44 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Quiz - ScholarConnect</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* ===== QUIZ: single-question-at-a-time layout ===== */
-    .quiz-wrap { margin-top:14px; }
-    .step-input { display:none; }
-
-    /* Each input is immediately followed by its card. Only the checked input's card shows. */
-    .step-card { display:none; padding:16px; border-radius:12px; background:#fff; border:1px solid #e6eef0; box-shadow:0 8px 20px rgba(2,6,23,0.05); margin-bottom:12px; }
-    .step-input:checked + .step-card { display:block; }
-
-    .question-head { font-weight:700; font-size:16px; margin-bottom:10px; color:#0f172a; display:flex; align-items:center; justify-content:space-between; gap:12px; }
-    .options { display:flex; flex-direction:column; gap:8px; }
-    .option-item { display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; border:1px solid #eef2f0; cursor:pointer; background:#fbfdfb; }
-    .option-item input { transform:scale(1.02); }
-    .option-item:hover { transform:translateY(-2px); background:#f0fff4; }
-
-    .quiz-nav { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
-    .btn-ghost { background:transparent; border:1px solid #d1d5db; padding:8px 12px; border-radius:999px; cursor:pointer; text-decoration:none; color:inherit; display:inline-flex; align-items:center; }
-    .btn-primary { padding:8px 14px; border-radius:999px; background:#16a34a; color:#fff; border:none; cursor:pointer; }
-
-    .progress { display:flex; gap:8px; align-items:center; margin-top:12px; }
-    .dot { width:10px; height:10px; border-radius:50%; background:#e6e9ea; border:1px solid #e9eef0; }
-    .dot.active { background:#16a34a; box-shadow:0 6px 14px rgba(22,163,74,0.12); }
-
-    .results { margin-top:18px; }
-    .result-card { border-radius:12px; padding:12px; border:1px solid #e6eef0; margin-bottom:10px; background:#fff; box-shadow:0 8px 20px rgba(2,6,23,0.04); display:flex; justify-content:space-between; align-items:center; gap:10px; }
-    .badge-verified { display:inline-block; background:#ecfdf5; color:#065f46; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #bbf7d0; margin-right:8px;}
-    .badge-unverified { display:inline-block; background:#fff7ed; color:#92400e; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #ffd8a8; margin-right:8px;}
-
-    /* Inline auth banner (less intrusive than a modal) */
-    .auth-banner { display:flex; gap:12px; align-items:center; justify-content:space-between; background:#fffbeb; border:1px solid #ffedd5; padding:10px 12px; border-radius:10px; margin:12px 0; color:#92400e; }
-    .auth-banner .actions { display:flex; gap:8px; }
-
-    /* small responsive tweaks */
-    @media (max-width:700px){
-      .option-item { padding:12px; }
-      .quiz-wrap { padding:0 8px; }
-    }
-  </style>
 </head>
 <body>
   <!-- NAV -->

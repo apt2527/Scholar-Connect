@@ -6,6 +6,7 @@
   <title>Login - ScholarConnect</title>
   <link rel="stylesheet" href="style.css" />
   <style>.hint{font-size:13px;color:#6b7280;margin-bottom:8px;}</style>
+  <link rel="stylesheet" href="script.js">
 </head>
 <body>
   <header class="navbar">
@@ -69,8 +70,8 @@
     </div>
   </footer>
 
-  <script>
-    // Demo login: create localStorage.sc_user and redirect to next
+  <!-- <script>
+   
     function getQueryParam(name){
       const url = new URL(window.location.href);
       return url.searchParams.get(name);
@@ -91,6 +92,6 @@
       const next = getQueryParam('next') || 'quiz.html';
       window.location.href = next;
     });
-  </script>
+  </script> -->
 </body>
 </html>
