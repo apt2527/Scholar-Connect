@@ -6,16 +6,42 @@
   <title>Quiz - ScholarConnect</title>
   <link rel="stylesheet" href="style.css" />
   <style>
-    .auth-overlay {
-      position: fixed; inset:0; display:flex; align-items:center; justify-content:center;
-      background: rgba(2,6,23,0.5); z-index:400; padding:20px;
-    }
-    .auth-card { width:420px; background:#fff; border-radius:12px; padding:18px; border:1px solid #e5e7eb; box-shadow:0 14px 40px rgba(2,6,23,0.12);}
-    .quiz-card { margin-top:18px; }
-    .small-link { color:#064e3b; font-weight:600; text-decoration:none; }
+    /* ===== QUIZ: single-question-at-a-time layout ===== */
+    .quiz-wrap { margin-top:14px; }
+    .step-input { display:none; }
+
+    /* Each input is immediately followed by its card. Only the checked input's card shows. */
+    .step-card { display:none; padding:16px; border-radius:12px; background:#fff; border:1px solid #e6eef0; box-shadow:0 8px 20px rgba(2,6,23,0.05); margin-bottom:12px; }
+    .step-input:checked + .step-card { display:block; }
+
+    .question-head { font-weight:700; font-size:16px; margin-bottom:10px; color:#0f172a; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .options { display:flex; flex-direction:column; gap:8px; }
+    .option-item { display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; border:1px solid #eef2f0; cursor:pointer; background:#fbfdfb; }
+    .option-item input { transform:scale(1.02); }
+    .option-item:hover { transform:translateY(-2px); background:#f0fff4; }
+
+    .quiz-nav { display:flex; gap:10px; justify-content:flex-end; margin-top:12px; }
+    .btn-ghost { background:transparent; border:1px solid #d1d5db; padding:8px 12px; border-radius:999px; cursor:pointer; text-decoration:none; color:inherit; display:inline-flex; align-items:center; }
+    .btn-primary { padding:8px 14px; border-radius:999px; background:#16a34a; color:#fff; border:none; cursor:pointer; }
+
+    .progress { display:flex; gap:8px; align-items:center; margin-top:12px; }
+    .dot { width:10px; height:10px; border-radius:50%; background:#e6e9ea; border:1px solid #e9eef0; }
+    .dot.active { background:#16a34a; box-shadow:0 6px 14px rgba(22,163,74,0.12); }
+
     .results { margin-top:18px; }
+    .result-card { border-radius:12px; padding:12px; border:1px solid #e6eef0; margin-bottom:10px; background:#fff; box-shadow:0 8px 20px rgba(2,6,23,0.04); display:flex; justify-content:space-between; align-items:center; gap:10px; }
     .badge-verified { display:inline-block; background:#ecfdf5; color:#065f46; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #bbf7d0; margin-right:8px;}
     .badge-unverified { display:inline-block; background:#fff7ed; color:#92400e; border-radius:999px; padding:4px 8px; font-weight:700; font-size:12px; border:1px solid #ffd8a8; margin-right:8px;}
+
+    /* Inline auth banner (less intrusive than a modal) */
+    .auth-banner { display:flex; gap:12px; align-items:center; justify-content:space-between; background:#fffbeb; border:1px solid #ffedd5; padding:10px 12px; border-radius:10px; margin:12px 0; color:#92400e; }
+    .auth-banner .actions { display:flex; gap:8px; }
+
+    /* small responsive tweaks */
+    @media (max-width:700px){
+      .option-item { padding:12px; }
+      .quiz-wrap { padding:0 8px; }
+    }
   </style>
 </head>
 <body>
@@ -31,12 +57,11 @@
         <a href="index.html#home">Home</a>
         <a href="scholarships.html">Scholarships</a>
         <a href="categories.html">Categories</a>
-       <a href="documents.html">Documents</a>
+        <a href="how-it-works.html">Documents</a>
         <a href="support.html">Support</a>
       </nav>
 
       <div class="nav-actions" id="nav-auth-actions">
-        <!-- will be updated by JS -->
         <a id="hdr-login" href="login.html?next=quiz.html" class="btn btn-outline">Login</a>
         <a id="hdr-signup" href="signup.html?next=quiz.html" class="btn btn-primary">Sign up</a>
       </div>
@@ -44,14 +69,128 @@
   </header>
 
   <section class="section">
-    <div class="container" style="max-width:760px;margin:0 auto;">
+    <div class="container" style="max-width:820px;margin:0 auto;">
       <div class="card quiz-card">
-        <h2>Quick 5-question eligibility quiz</h2>
-        <p class="page-subtitle">Answer a few quick questions — we'll recommend the best matching scholarships.</p>
+        <h2 style="margin-bottom:6px;">Quick 5-question eligibility quiz</h2>
+        <p class="page-subtitle">One question at a time — answer honestly to get personalised scholarship matches.</p>
 
+        <!-- Inline auth banner (non-modal) -->
+        <div id="auth-banner" class="auth-banner" style="display:none;">
+          <div>
+            <strong>Sign in to save your quiz & get personalised matches.</strong>
+            <div class="small" style="margin-top:4px;color:#92400e;">This is a demo sign-in that stores a local account (no server).</div>
+          </div>
+          <div class="actions">
+            <a href="login.html?next=quiz.html" class="btn-ghost">Login</a>
+            <a href="signup.html?next=quiz.html" class="btn-primary">Sign up</a>
+          </div>
+        </div>
+
+        <!-- greeting (signed in) -->
         <div id="greeting-area"></div>
-        <div id="quiz-area"></div>
-        <div id="results" class="results"></div>
+
+        <div class="quiz-wrap">
+          <form id="quiz-form" action="javascript:void(0);">
+            <!-- STEP 1 -->
+            <input class="step-input" id="step-1" name="step" type="radio" checked>
+            <div class="step-card">
+              <div class="question-head">
+                <span>1. What is your current level of study?</span>
+                <span class="small">Step 1 of 5</span>
+              </div>
+              <div class="options">
+                <label class="option-item"><input name="level" type="radio" value="class9-12"> <span>Class 9–12</span></label>
+                <label class="option-item"><input name="level" type="radio" value="undergrad"> <span>Undergraduate</span></label>
+                <label class="option-item"><input name="level" type="radio" value="postgrad"> <span>Postgraduate / Research</span></label>
+              </div>
+              <div class="quiz-nav" style="margin-top:12px;">
+                <label for="step-2" class="btn-ghost">Next →</label>
+              </div>
+            </div>
+
+            <!-- STEP 2 -->
+            <input class="step-input" id="step-2" name="step" type="radio">
+            <div class="step-card">
+              <div class="question-head">
+                <span>2. Which field are you pursuing or planning?</span>
+                <span class="small">Step 2 of 5</span>
+              </div>
+              <div class="options">
+                <label class="option-item"><input name="field" type="radio" value="engineering"> <span>Engineering / Technology</span></label>
+                <label class="option-item"><input name="field" type="radio" value="science"> <span>Basic & Natural Sciences</span></label>
+                <label class="option-item"><input name="field" type="radio" value="commerce"> <span>Commerce / Arts / Management</span></label>
+                <label class="option-item"><input name="field" type="radio" value="other"> <span>Other / Professional</span></label>
+              </div>
+              <div class="quiz-nav">
+                <label for="step-1" class="btn-ghost">← Back</label>
+                <label for="step-3" class="btn-ghost">Next →</label>
+              </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <input class="step-input" id="step-3" name="step" type="radio">
+            <div class="step-card">
+              <div class="question-head">
+                <span>3. Is your family income below ₹8 lakh per year?</span>
+                <span class="small">Step 3 of 5</span>
+              </div>
+              <div class="options">
+                <label class="option-item"><input name="income" type="radio" value="yes"> <span>Yes</span></label>
+                <label class="option-item"><input name="income" type="radio" value="no"> <span>No</span></label>
+              </div>
+              <div class="quiz-nav">
+                <label for="step-2" class="btn-ghost">← Back</label>
+                <label for="step-4" class="btn-ghost">Next →</label>
+              </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <input class="step-input" id="step-4" name="step" type="radio">
+            <div class="step-card">
+              <div class="question-head">
+                <span>4. Identify your gender (for gender-targeted schemes)</span>
+                <span class="small">Step 4 of 5</span>
+              </div>
+              <div class="options">
+                <label class="option-item"><input name="gender" type="radio" value="female"> <span>Female</span></label>
+                <label class="option-item"><input name="gender" type="radio" value="male"> <span>Male</span></label>
+                <label class="option-item"><input name="gender" type="radio" value="other"> <span>Prefer not to say</span></label>
+              </div>
+              <div class="quiz-nav">
+                <label for="step-3" class="btn-ghost">← Back</label>
+                <label for="step-5" class="btn-ghost">Next →</label>
+              </div>
+            </div>
+
+            <!-- STEP 5 -->
+            <input class="step-input" id="step-5" name="step" type="radio">
+            <div class="step-card">
+              <div class="question-head">
+                <span>5. Have you scored in the top 1% or got a top rank in board/JEE/other national exams?</span>
+                <span class="small">Step 5 of 5</span>
+              </div>
+              <div class="options">
+                <label class="option-item"><input name="merit" type="radio" value="top"> <span>Yes — top ranks / top 1%</span></label>
+                <label class="option-item"><input name="merit" type="radio" value="nope"> <span>No</span></label>
+              </div>
+
+              <div class="quiz-nav">
+                <label for="step-4" class="btn-ghost">← Back</label>
+                <button id="finish-quiz" class="btn-primary" type="button">Get personalised matches</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="progress" aria-hidden="true">
+            <span class="dot" id="dot-1"></span>
+            <span class="dot" id="dot-2"></span>
+            <span class="dot" id="dot-3"></span>
+            <span class="dot" id="dot-4"></span>
+            <span class="dot" id="dot-5"></span>
+          </div>
+
+          <div id="results" class="results" aria-live="polite"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -63,34 +202,13 @@
     </div>
   </footer>
 
-  <!-- Simple overlay prompting sign-in if required -->
-  <div id="auth-overlay" class="auth-overlay" style="display:none;">
-    <div class="auth-card">
-      <h3>Sign up or log in to take the quiz</h3>
-      <p class="small">We need a demo sign-in so we can save your quiz and show personalized matches. No backend — local demo account only.</p>
-      <div style="display:flex; gap:10px; margin-top:12px;">
-        <a class="btn btn-outline" href="login.html?next=quiz.html">Login</a>
-        <a class="btn btn-primary" href="signup.html?next=quiz.html">Sign up</a>
-      </div>
-    </div>
-  </div>
-
   <script>
-    // Auth helpers
+    // Minimal JS: auth header, hide banner when signed in, compute results, update progress dots, sign-out.
     function getUser(){ return JSON.parse(localStorage.getItem('sc_user') || 'null'); }
     function signedIn(){ return !!localStorage.getItem('sc_user'); }
     function signOut(){ localStorage.removeItem('sc_user'); location.reload(); }
+    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
 
-    // quiz questions
-    const QUESTIONS = [
-      { id:'level', q:'What is your current level of study?', options:[{k:'class9-12',t:'Class 9–12'},{k:'undergrad',t:'Undergraduate'},{k:'postgrad',t:'Postgraduate / Research'}] },
-      { id:'field', q:'Which field are you pursuing or planning?', options:[{k:'engineering',t:'Engineering / Technology'},{k:'science',t:'Basic & Natural Sciences'},{k:'commerce',t:'Commerce / Arts / Management'},{k:'other',t:'Other / Professional'}] },
-      { id:'income', q:'Is your family income below ₹8 lakh per year?', options:[{k:'yes',t:'Yes'},{k:'no',t:'No'}] },
-      { id:'gender', q:'Identify your gender (for gender-targeted schemes)', options:[{k:'female',t:'Female'},{k:'male',t:'Male'},{k:'other',t:'Prefer not to say'}] },
-      { id:'merit', q:'Have you scored in the top 1% or a top rank in board/JEE/other national exams?', options:[{k:'top',t:'Yes — top ranks / top 1%'},{k:'nope',t:'No'}] }
-    ];
-
-    // scholarship mapping for results (id matches anchors in scholarships.html)
     const SCH_MAP = {
       nsp: { title:'National Scholarship Portal (NSP)', verified:true },
       'central-sector': { title:'PM-USP Central Sector Scheme (CSSS)', verified:true },
@@ -104,99 +222,101 @@
       manf: { title:'Maulana Azad National Fellowship (MANF) — note', verified:false }
     };
 
-    // render UI
-    const quizArea = document.getElementById('quiz-area');
-    const resultsArea = document.getElementById('results');
-    const greetingArea = document.getElementById('greeting-area');
-    const navAuthActions = document.getElementById('nav-auth-actions');
-    const authOverlay = document.getElementById('auth-overlay');
-
     function renderAuthHeader(){
+      const navAuth = document.getElementById('nav-auth-actions');
       if(signedIn()){
         const user = getUser();
-        navAuthActions.innerHTML = `<div style="display:flex;gap:10px;align-items:center;"><span class="small">Signed in as <strong>${escapeHtml(user.name || user.email)}</strong></span><a id="signout-btn" href="#" class="btn btn-outline">Sign out</a></div>`;
+        navAuth.innerHTML = `<div style="display:flex;gap:10px;align-items:center;"><span class="small">Signed in as <strong>${escapeHtml(user.name||user.email)}</strong></span><a id="signout-btn" href="#" class="btn btn-outline">Sign out</a></div>`;
         document.getElementById('signout-btn').addEventListener('click', function(e){ e.preventDefault(); if(confirm('Sign out?')) signOut(); });
       } else {
-        navAuthActions.innerHTML = `<a id="hdr-login" href="login.html?next=quiz.html" class="btn btn-outline">Login</a><a id="hdr-signup" href="signup.html?next=quiz.html" class="btn btn-primary">Sign up</a>`;
+        navAuth.innerHTML = `<a href="login.html?next=quiz.html" class="btn btn-outline">Login</a><a href="signup.html?next=quiz.html" class="btn btn-primary">Sign up</a>`;
       }
     }
 
-    function escapeHtml(s){ return String(s||'').replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
-
-    function renderQuiz(){
-      quizArea.innerHTML = '';
-      QUESTIONS.forEach((qs, idx)=>{
-        const block = document.createElement('div');
-        block.className = 'card-section';
-        block.style.marginBottom = '10px';
-        let html = `<h4 style="margin-bottom:8px;">${idx+1}. ${qs.q}</h4>`;
-        qs.options.forEach(opt=>{
-          html += `<label style="display:flex; gap:10px; align-items:center; margin-bottom:6px;"><input name="${qs.id}" type="radio" value="${opt.k}" /> <span>${opt.t}</span></label>`;
-        });
-        block.innerHTML = html;
-        quizArea.appendChild(block);
-      });
-      const btnWrap = document.createElement('div');
-      btnWrap.style.marginTop = '12px';
-      btnWrap.innerHTML = `<button id="submit-quiz" class="btn btn-primary">Get personalised matches</button>`;
-      quizArea.appendChild(btnWrap);
-      document.getElementById('submit-quiz').addEventListener('click', submitQuiz);
+    function handleAuthBannerAndGreeting(){
+      const banner = document.getElementById('auth-banner');
+      const greeting = document.getElementById('greeting-area');
+      if(!signedIn()){
+        banner.style.display = 'flex'; // show gentle inline banner
+        greeting.innerHTML = '';
+      } else {
+        banner.style.display = 'none';
+        const user = getUser();
+        greeting.innerHTML = `<div class="card-section small">Signed in as <strong>${escapeHtml(user.name||user.email)}</strong> — (<a href="#" id="logout-inline" class="small-link">Sign out</a>)</div>`;
+        document.getElementById('logout-inline').addEventListener('click', function(e){ e.preventDefault(); if(confirm('Sign out?')) signOut(); });
+      }
     }
 
-    function submitQuiz(){
-      // validate
-      const answers = {};
-      for(const q of QUESTIONS){
-        const el = document.querySelector(`input[name="${q.id}"]:checked`);
-        if(!el){ alert('Please answer: ' + q.q); return; }
-        answers[q.id] = el.value;
+    function updateProgressDots(){
+      for(let i=1;i<=5;i++){
+        const dot = document.getElementById('dot-'+i);
+        const stepInput = document.getElementById('step-'+i);
+        if(stepInput && stepInput.checked){
+          for(let j=1;j<=5;j++) document.getElementById('dot-'+j).classList.toggle('active', j<=i);
+        }
       }
+    }
 
-      // simple mapping logic
+    function computeMatches(answers){
       const matches = [];
-      matches.push('nsp'); // always useful
-
+      matches.push('nsp');
       if(answers.merit==='top' || answers.level==='undergrad' || answers.level==='postgrad') matches.push('central-sector');
       if(answers.gender==='female' && answers.field==='engineering' && answers.level==='undergrad') matches.push('aicte-pragati');
       if(answers.merit==='top' && answers.field==='science') matches.push('inspire');
       if(answers.level==='postgrad') matches.push('manf');
-      if(answers.income==='yes') {
-        matches.push('hdfc-ecss','lic-hfl');
-      }
-      // always include PMSS as info card (user must check eligibility)
+      if(answers.income==='yes') matches.push('hdfc-ecss','lic-hfl');
       matches.push('pmss');
-
-      showResults(matches);
+      return [...new Set(matches)];
     }
 
     function showResults(ids){
-      resultsArea.innerHTML = '<h3>Recommended scholarships</h3>';
+      const out = document.getElementById('results');
+      out.innerHTML = '<h3 style="margin-top:12px;">Recommended scholarships</h3>';
       ids.forEach(id=>{
         const s = SCH_MAP[id] || { title:id, verified:false };
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.style.marginBottom = '10px';
         const badge = s.verified ? `<span class="badge-verified">Verified</span>` : `<span class="badge-unverified">Non-verified</span>`;
-        card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;"><div><h4 style="margin-bottom:6px;">${badge}${escapeHtml(s.title)}</h4><p class="small">Click to view full details on the scholarships page.</p></div><div><a class="btn btn-outline" href="scholarships.html#${encodeURIComponent(id)}">View details</a></div></div>`;
-        resultsArea.appendChild(card);
+        const card = document.createElement('div');
+        card.className = 'result-card';
+        card.innerHTML = `<div><h4 style="margin:0 0 6px 0;">${badge}${escapeHtml(s.title)}</h4><p class="small" style="margin:0">Open the full details on the Scholarships page.</p></div><div style="display:flex;flex-direction:column;gap:8px;"><a class="btn btn-outline" style="white-space:nowrap;" href="scholarships.html#${encodeURIComponent(id)}">View details</a><a class="btn btn-primary" href="index.html">Back to home</a></div>`;
+        out.appendChild(card);
       });
-      resultsArea.innerHTML += '<p class="small" style="margin-top:8px;">Note: "Verified" means the scheme has an official central/state portal reference; "Non-verified" means the scheme is CSR / partner-run and you should confirm current year details on the official provider page.</p>';
+      out.innerHTML += '<p class="small" style="margin-top:8px;">Tip: always open the official scheme PDF on the provider portal for the current year before applying.</p>';
+      out.scrollIntoView({behavior:'smooth'});
     }
 
-    // Init
-    window.addEventListener('load', ()=>{
+    // init
+    window.addEventListener('load', function(){
       renderAuthHeader();
-      if(!signedIn()){
-        // show overlay
-        authOverlay.style.display = 'flex';
-        quizArea.innerHTML = '';
-      } else {
-        authOverlay.style.display = 'none';
-        const user = getUser();
-        greetingArea.innerHTML = `<div class="card-section small">Signed in as <strong>${escapeHtml(user.name||user.email)}</strong> — your answers are not shared in this demo. (<a href="#" id="logout-inline" class="small-link">Sign out</a>)</div>`;
-        document.getElementById('logout-inline').addEventListener('click', e=>{ e.preventDefault(); if(confirm('Sign out?')) signOut(); });
-        renderQuiz();
-      }
+      handleAuthBannerAndGreeting();
+      updateProgressDots();
+
+      document.querySelectorAll('.step-input').forEach(inp => inp.addEventListener('change', updateProgressDots));
+
+      document.getElementById('finish-quiz').addEventListener('click', function(){
+        // check sign-in
+        if(!signedIn()){
+          // gentle inline banner remains visible; scroll to it
+          document.getElementById('auth-banner').scrollIntoView({behavior:'smooth'});
+          return;
+        }
+
+        // collect answers
+        const form = document.getElementById('quiz-form');
+        const vals = {};
+        ['level','field','income','gender','merit'].forEach(name=>{
+          const sel = form.querySelector(`input[name="${name}"]:checked`);
+          vals[name] = sel ? sel.value : null;
+        });
+        for(const [k,v] of Object.entries(vals)){
+          if(!v){ alert('Please answer the missing question.'); return; }
+        }
+
+        const matches = computeMatches(vals);
+        showResults(matches);
+
+        // store demo quiz locally for convenience
+        try { localStorage.setItem('sc_quiz', JSON.stringify({ user:getUser(), answers:vals, matches, at:Date.now() })); } catch(e){}
+      });
     });
   </script>
 </body>
